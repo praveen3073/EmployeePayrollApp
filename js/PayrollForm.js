@@ -75,7 +75,6 @@ class EmployeePayrollData{
                 +" : Notes="+this.notes;
     }
 }
-
 const save = () => {
     try {
         let employeePayroll = new EmployeePayrollData();
@@ -147,7 +146,7 @@ const unsetSelectedValue = (propertyValue) => {
         item.checked = false;
     });
 }
-const setValue = (id, value) {
+const setValue = (id, value) => {
     const element = document.querySelector(id);
     element.value = value;
 }

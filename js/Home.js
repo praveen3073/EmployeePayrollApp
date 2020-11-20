@@ -1,8 +1,18 @@
+let empPayrollList;
 window.addEventListener('DOMContentLoaded',(event)=>{
+    empPayrollList = getEmployeePayrollDataFromStorage();
+    document.querySelector('.emp-count').textContent = empPayrollList.length;
     createInnerHTML();
-})
+});
+
+const getEmployeePayrollDataFromStorage = () => {
+    return localStorage.getItem("EmployeePayrollList") ?
+        JSON.parse(localStorage.getItem("EmployeePayrollList")) :
+        [];
+} 
 
 function createInnerHTML(){
+    if(empPayrollList.length == 0) return;
     const headerHTML=
         "<th></th>"+
         "<th>Emp Name</th>"+
@@ -13,7 +23,6 @@ function createInnerHTML(){
         "<th>Actions</th>";
     
     let innerHTML = `${headerHTML}`;    
-    let empPayrollList = createEmployeePayrollJson();
     for(const empData of empPayrollList) {
         innerHTML = `${innerHTML}
         <tr>
@@ -24,8 +33,8 @@ function createInnerHTML(){
             <td>RS ${empData._salary}</td>
             <td>${empData._startDate}</td>
             <td>
-                <img id="${empData._id}" onclick="remove()" alt="delete" src="../assets/icons/delete-black-18dp.svg">
-                <img id="${empData._id}" onclick="update()" alt="edit" src="../assets/icons/create-black-18dp.svg">
+                <img name="${empData._id}" onclick="remove(this)" alt="delete" src="../assets/icons/delete-black-18dp.svg">
+                <img name="${empData._id}" onclick="update(this)" alt="edit" src="../assets/icons/create-black-18dp.svg">
             </td>
         </tr>
         `;
@@ -40,29 +49,4 @@ function getDeptHTML(deptList) {
         <div class="dept-label">${dept}</div>`;
     }
     return deptHTML;
-}
-function createEmployeePayrollJson(){
-    let empPayrollLocalList = [
-        {
-            _name:'Narayan Mahadevan',
-            _gender:'Male',
-            _department:['Engineering','Finance'],
-            _salary:'500000',
-            _startDate:'29 Oct 2019',
-            _note:'',
-            _id: new Date().getTime(),
-            _profilePic:'../assets/profile-images/Ellipse -5.png'
-        },
-        {
-            _name:'Amarpa Shashanka',
-            _gender:'Female',
-            _department:['Sales'],
-            _salary:'400000',
-            _startDate:'18 Nov 2020',
-            _note:'',
-            _id: new Date().getTime()+1,
-            _profilePic:'../assets/profile-images/Ellipse -7.png'
-        }
-    ]
-    return empPayrollLocalList;
 }
