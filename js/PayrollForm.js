@@ -193,6 +193,14 @@ function getCheckBoxValue(boxes) {
     return boxlist;
 }
 
+function getRadioValue(radios) {
+    for (var i = 0; i < radios.length; i++) {
+        if (radios[i].checked) {
+            return radios[i].value;
+        }
+    }
+}
+
 const checkForUpdate = () => {
     const employeePayrollJson = localStorage.getItem('editEmp');
     isUpdate = employeePayrollJson ? true : false;
@@ -211,8 +219,8 @@ const setForm = () => {
     setTextValue('.salary-output',employeePayrollObj._salary);
     setValue('#notes',employeePayrollObj._notes);
     let date = employeePayrollObj._startDate.toString().slice(0,10).split("-");
-    setValue('#day',Number.parseInt(date[2]) + 1);
-    setValue('#month',Number.parseInt(date[1]) - 1);
+    setValue('#day', (Number.parseInt(date[2]) + 1) % 31);
+    setValue('#month', date[1]);//Number.parseInt(date[1]) - 1);
     setValue('#year',date[0]);
 }
 
@@ -228,7 +236,7 @@ const resetForm = () => {
     setValue('#year', '2020');
     setSelectedIndex('#day', 0);
     setSelectedIndex('#month', 0);
-    setSelectedIndex('#year', 0);
+    setSelectedIndex('#year', 0);localStorage.removeItem('editEmp');
 }
 
 const unsetSelectedValue = (propertyValue) => {
